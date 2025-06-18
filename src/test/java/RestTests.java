@@ -17,7 +17,7 @@ public class RestTests {
 
     @Test
     @DisplayName("Проверка запроса POST на регистрацию")
-    void checkToken1() {
+    void checkTokenTest() {
         String authdata = "{\"email\": \"eve.holt@reqres.in\", \"password\": \"cityslicka\"}";
         given()
                 .header("x-api-key", "reqres-free-v1")//тестовый ключ для доступа к API Reqres (фейковый сервис для практики тестирования)
@@ -35,7 +35,7 @@ public class RestTests {
 
     @Test
     @DisplayName("Проверка запроса GET на получение списка пользователей")
-    void checkListUsers2() {
+    void checkListUsersTest() {
         given()
                 .header("x-api-key", "reqres-free-v1")//тестовый ключ для доступа к API Reqres (фейковый сервис для практики тестирования)
                 .log().uri()
@@ -51,7 +51,7 @@ public class RestTests {
 
     @Test
     @DisplayName("Проверка запроса PUT на редактирование пользователя")
-    void checkUpdateUser3() {
+    void checkUpdateUserTest() {
         String Update = "{\"name\": \"morpheusТЕСТ\", \"job\": \"zion resident\"}";
         given()
                 .header("x-api-key", "reqres-free-v1")//тестовый ключ для доступа к API Reqres (фейковый сервис для практики тестирования)
@@ -70,7 +70,7 @@ public class RestTests {
 
     @Test
     @DisplayName("Проверка запроса POST на создание пользователя")
-    void checkCreateUser4() {
+    void checkCreateUserTest() {
         String сreateDate = "{\"name\": \"Mariay Grishina\", \"job\": \"engineer\"}";
         userId = given()
                 .header("x-api-key", "reqres-free-v1")//тестовый ключ для доступа к API Reqres (фейковый сервис для практики тестирования)
@@ -93,7 +93,7 @@ public class RestTests {
 
     @Test
     @DisplayName("Проверка запроса Delete на удаление пользователя")
-    void checkDeleteUser5() {
+    void checkDeleteUserTest() {
         given()
                 .header("x-api-key", "reqres-free-v1")//тестовый ключ для доступа к API Reqres (фейковый сервис для практики тестирования)
                 .log().uri()
