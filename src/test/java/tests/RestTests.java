@@ -1,3 +1,5 @@
+package tests;
+
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
@@ -30,7 +32,8 @@ public class RestTests {
                 .log().status()
                 .statusCode(200)
                 .log().body()
-                .body("token", not(emptyOrNullString()));
+                .body("token", not(emptyOrNullString()))
+                .body("id", not(emptyOrNullString()));
     }
 
     @Test
