@@ -7,7 +7,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static specs.SpecsList.*;
 
-public class RestTestsObject {
+public class RestTestsObject extends TestBase {
     private static String userId;
 
     @BeforeEach
@@ -96,7 +96,32 @@ public class RestTestsObject {
         );
     }
 
+    @Test
+    @DisplayName("Проверка запроса Patch на редактирование пользователя")
+    void checkPatchUpdateUserTest() {
+        СhangeUserRequestLombokTehModel upData = new СhangeUserRequestLombokTehModel();
+        upData.setName("morpheusТЕСТ22изменен");
+        upData.setJob("zion residentТЕСТ22изменен");
+        ChangeUserResponseLombokTehModel response = step("Отправка Patch запроса", () ->
+                given(registrationRequestSpec)
+                        .body(upData)
+                        .when()
+                        .put("/users/2")
+                        .then()
+                        .spec(registrationResponseSpec)
+                        .extract()
+                        .as(ChangeUserResponseLombokTehModel.class)
+        );
 
+        // Проверяем ответ
+        step("Проверка имени в ответе", () ->
+                assertThat(response.getName()).isEqualTo("morpheusТЕСТ22изменен")
+        );
+
+        step("Проверка должности в ответе", () ->
+                assertThat(response.getJob()).isEqualTo("zion residentТЕСТ22изменен")
+        );
+    }
     @Test
     @DisplayName("Проверка запроса POST на создание пользователя")
     void checkCreateUserTest() {
