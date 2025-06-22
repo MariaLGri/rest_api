@@ -31,7 +31,6 @@ dependencies {
             "io.rest-assured:json-schema-validator:$restAssuredVersion",
             "io.qameta.allure:allure-rest-assured:$allureVersion",
             "io.rest-assured:rest-assured:5.5.2",
-            "com.codeborne:selenide:7.2.1",
             "org.junit.jupiter:junit-jupiter:5.10.2",
             'org.assertj:assertj-core:3.24.2',
             'org.slf4j:slf4j-simple:2.0.7' // для улучшения логиров
