@@ -70,7 +70,24 @@ public class RestTests {
                 .body("name", equalTo("morpheusТЕСТ"))
                 .body("job", equalTo("zion resident"));
     }
-
+    @Test
+    @DisplayName("Проверка запроса PUT на редактирование пользователя")
+    void checkPatchUpdateUserTest() {
+        String Update = "{\"name\": \"morpheusТЕСТ22\", \"job\": \"zion resident\"}";
+        given()
+                .header("x-api-key", "reqres-free-v1")//тестовый ключ для доступа к API Reqres (фейковый сервис для практики тестирования)
+                .body(Update)
+                .contentType(JSON)
+                .log().uri()
+                .when()
+                .put("/users/426")
+                .then()
+                .log().status()
+                .statusCode(200)
+                .log().body()
+                .body("name", equalTo("morpheusТЕСТ22"))
+                .body("job", equalTo("zion resident"));
+    }
     @Test
     @DisplayName("Проверка запроса POST на создание пользователя")
     void checkCreateUserTest() {
@@ -109,4 +126,5 @@ public class RestTests {
 
 
     }
+
 }
