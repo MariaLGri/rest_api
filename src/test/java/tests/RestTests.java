@@ -71,7 +71,7 @@ public class RestTests {
                 .body("job", equalTo("zion resident"));
     }
     @Test
-    @DisplayName("Проверка запроса PUT на редактирование пользователя")
+    @DisplayName("Проверка запроса Patch на редактирование пользователя")
     void checkPatchUpdateUserTest() {
         String Update = "{\"name\": \"morpheusТЕСТ22\", \"job\": \"zion resident\"}";
         given()
@@ -80,7 +80,7 @@ public class RestTests {
                 .contentType(JSON)
                 .log().uri()
                 .when()
-                .put("/users/426")
+                .patch("/users/426")
                 .then()
                 .log().status()
                 .statusCode(200)
