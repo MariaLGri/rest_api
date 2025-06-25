@@ -18,19 +18,19 @@ public class SpecsList {
             .contentType(JSON)
             .log().uri();
 
-    public static ResponseSpecification registrationResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification registrationResponse200Spec = new ResponseSpecBuilder()
             .expectStatusCode(200)
             .log(STATUS)
             .log(BODY)
             .build();
 
 
-    public static ResponseSpecification createUserResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification createUserResponse201Spec = new ResponseSpecBuilder()
             .expectStatusCode(201)
             .log(STATUS)
             .log(BODY)
             .build();
-    public static ResponseSpecification deleteUserResponseSpec = new ResponseSpecBuilder()
+    public static ResponseSpecification deleteUserResponse204Spec = new ResponseSpecBuilder()
             .expectStatusCode(204)
             .log(STATUS)
             .log(BODY)

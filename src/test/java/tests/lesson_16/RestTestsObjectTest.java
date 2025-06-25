@@ -1,21 +1,29 @@
-package tests;
+package tests.lesson_16;
 import models.lombok.*;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.junit.jupiter.api.*;
+import tests.lesson_16.helpers.TestDataHelper;
 import static io.qameta.allure.Allure.step;
 import static io.restassured.RestAssured.given;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.*;
 import static specs.SpecsList.*;
 
-public class RestTestsObject extends TestBase {
-    private static String userId;
 
+public class RestTestsObjectTest extends TestBase {
+    private static String userId;
+    private static final Logger logger = LogManager.getLogger(RestTestsObjectTest.class); // Настраивает вывод логов в соответствии с конфигурацией Log4j 2
     @BeforeEach
     void setUp() {
+        // Если пользователь не создан, создаем тестового пользователя
+        // со стандартными параметрами
         if (userId == null) {
-            checkCreateUserTest(); // Создаем пользователя, если его нет
+            userId = TestDataHelper.createDefaultTestUser();
         }
     }
+
+
 
     @Test
     @DisplayName("Проверка запроса POST на регистрацию")
@@ -32,7 +40,7 @@ public class RestTestsObject extends TestBase {
                         .when()
                         .post("/register")
                         .then()
-                        .spec(registrationResponseSpec)
+                        .spec(registrationResponse200Spec)
                         .extract().as(RegistrationResponseLombokTehModel.class)
         );
 
@@ -54,17 +62,18 @@ public class RestTestsObject extends TestBase {
         ListUserResponseLombokTehModel response = step("Make request and get response", () ->
                 given(registrationRequestSpec)
                         .when()
-                        .get("/users?page=2")
+                        .queryParam("page", "2")
+                        .get("/users")
                         .then()
-                        .spec(registrationResponseSpec)
+                        .spec(registrationResponse200Spec)
                         .extract().as(ListUserResponseLombokTehModel.class)
         );
 
-        step("Verify response per_page", () ->
+        step("Проверка в ответе per_page", () ->
                 assertThat(response.getPerPage()).isEqualTo(6)
         );
 
-        step("Verify response support.text", () ->
+        step("Проверка в ответе support.text содержания текста 'Content Caddy'" , () ->
                 assertThat(response.getSupport().getText()).contains("Content Caddy")
         );
     }
@@ -81,7 +90,7 @@ public class RestTestsObject extends TestBase {
                         .when()
                         .put("/users/2")
                         .then()
-                        .spec(registrationResponseSpec)
+                        .spec(registrationResponse200Spec)
                         .extract()
                         .as(ChangeUserResponseLombokTehModel.class)
         );
@@ -108,7 +117,7 @@ public class RestTestsObject extends TestBase {
                         .when()
                         .put("/users/2")
                         .then()
-                        .spec(registrationResponseSpec)
+                        .spec(registrationResponse200Spec)
                         .extract()
                         .as(ChangeUserResponseLombokTehModel.class)
         );
@@ -125,6 +134,7 @@ public class RestTestsObject extends TestBase {
     @Test
     @DisplayName("Проверка запроса POST на создание пользователя")
     void checkCreateUserTest() {
+
         // 1. Подготовка тестовых данных
         CreateUserRequestLombokTehModel requestData = new CreateUserRequestLombokTehModel();
         requestData.setName("Mariay Grishina");
@@ -137,7 +147,7 @@ public class RestTestsObject extends TestBase {
                         .when()
                         .post("/users")
                         .then()
-                        .spec(createUserResponseSpec)
+                        .spec(createUserResponse201Spec)
                         .extract()
                         .as(CreateUserResponseLombokTehModel.class)
         );
@@ -152,7 +162,7 @@ public class RestTestsObject extends TestBase {
 
         // Сохраняем ID для последующих тестов
         userId = response.getId();
-        System.out.println("Created user ID: " + userId);
+        logger.info("Created user ID: " + userId); // Вместо System.out.println используем Log4j для более гибкого и профессионального логирования.
     }
 
     @Test
@@ -164,7 +174,7 @@ public class RestTestsObject extends TestBase {
                         .when()
                         .delete("/users/{userId}")
                         .then()
-                        .spec(deleteUserResponseSpec)
+                        .spec(deleteUserResponse204Spec)
                         .body(equalTo(""))
         );
 

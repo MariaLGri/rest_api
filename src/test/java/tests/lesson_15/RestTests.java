@@ -1,4 +1,4 @@
-package tests;
+package tests.lesson_15;
 
 import io.restassured.RestAssured;
 import org.junit.jupiter.api.BeforeAll;
